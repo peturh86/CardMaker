@@ -2,6 +2,7 @@ FROM debian:bookworm-slim
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libcupsimage2 \
     cups \
     libcups2 \
     curl \
@@ -17,10 +18,9 @@ COPY fonts /usr/share/fonts/truetype/custom
 WORKDIR /app
 COPY . /app
 
-# Copy PPD and filters
-COPY printer-config/ZC300.ppd /etc/cups/ppd/ZC300.ppd
-COPY printer-config/rastertojg /usr/lib/cups/filter/rastertojg
-RUN chmod +x /usr/lib/cups/filter/rastertojg
+# Install CUPS printer driver
+WORKDIR /app/printer/driver
+RUN chmod +x Install.sh && ./Install.sh
 
 # Install Python dependencies
 COPY requirements.txt .

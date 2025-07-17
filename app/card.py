@@ -11,20 +11,48 @@ CARD_WIDTH, CARD_HEIGHT = 1016, 638
 
 # Get the directory of this script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FONT_DIR = os.path.join(os.path.dirname(BASE_DIR), "fonts")
 
-FONTRES1 = os.path.join(FONT_DIR, "LSANSDI.TTF")
-FONTRES2 = os.path.join(FONT_DIR, "CascadiaCode.ttf")
+
+# Try different font locations
+def get_font_path(font_name):
+    """Try to find font in multiple locations"""
+    possible_paths = [
+        f"/usr/share/fonts/truetype/custom/{font_name}",  # Docker container path
+        os.path.join(
+            os.path.dirname(BASE_DIR), "fonts", font_name
+        ),  # Local development path
+        font_name,  # System font or current directory
+    ]
+
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    return None
+
+
+FONTRES1 = get_font_path("LSANSDI.TTF")
+FONTRES2 = get_font_path("CascadiaCode.ttf")
 
 try:
-    FONT = ImageFont.truetype(FONTRES1, 48)
-    FONT2 = ImageFont.truetype(FONTRES1, 52)
-    FONT3 = ImageFont.truetype(FONTRES2, 33)
+    if FONTRES1:
+        FONT = ImageFont.truetype(FONTRES1, 48)
+        FONT2 = ImageFont.truetype(FONTRES1, 52)
+    else:
+        raise OSError("FONTRES1 not found")
+
+    if FONTRES2:
+        FONT3 = ImageFont.truetype(FONTRES2, 33)
+    else:
+        raise OSError("FONTRES2 not found")
+
 except OSError:
     print("[WARNING] Custom fonts not found, using default fonts")
     FONT = ImageFont.load_default()
     FONT2 = ImageFont.load_default()
     FONT3 = ImageFont.load_default()
+    # Set fallback paths for the fit_text_to_width function
+    FONTRES1 = None
+    FONTRES2 = None
 
 
 def autocrop_transparent(img: Image.Image) -> Image.Image:
@@ -50,21 +78,29 @@ def fit_text_to_width(
     Finds the largest font size that fits the text within a max width.
 
     :param text: Text to measure
-    :param font_path: Path to the TTF font file
+    :param font_path: Path to the TTF font file (can be None for default font)
     :param max_width: Maximum width in pixels
     :param max_font_size: Starting font size to try
     :param min_font_size: Smallest allowed font size
     :return: A resized ImageFont.FreeTypeFont object
     """
-    font_size = max_font_size
-    while font_size >= min_font_size:
-        font = ImageFont.truetype(font_path, font_size)
-        left, top, right, bottom = font.getbbox(text)
-        text_width = right - left
-        if text_width <= max_width:
-            return font
-        font_size -= 1
-    return ImageFont.truetype(font_path, min_font_size)
+    # If no custom font path, use default font
+    if font_path is None:
+        return ImageFont.load_default()
+
+    try:
+        font_size = max_font_size
+        while font_size >= min_font_size:
+            font = ImageFont.truetype(font_path, font_size)
+            left, top, right, bottom = font.getbbox(text)
+            text_width = right - left
+            if text_width <= max_width:
+                return font
+            font_size -= 1
+        return ImageFont.truetype(font_path, min_font_size)
+    except OSError:
+        print(f"[WARNING] Could not load font {font_path}, using default")
+        return ImageFont.load_default()
 
 
 def sanitize_text(text: str) -> str:
@@ -272,14 +308,16 @@ def create_card_jpg(name: str, kt: str, title: str, photo_path, output_path, rem
 
     # Draw name, kt, title
     name_box_width = 600
-    name_font = fit_text_to_width(name, FONTRES1, name_box_width, 52)
+    extrainfosize = 38
 
     try:
-        # Try to use system fonts first, fall back to our fonts if available
-        name_font = fit_text_to_width(name, FONTRES1, name_box_width, 52)
-        extrainfosize = 38
-        kt_font = ImageFont.truetype(FONTRES1, extrainfosize)
-        title_font = ImageFont.truetype(FONTRES1, extrainfosize)
+        # Try to use custom fonts if available
+        if FONTRES1:
+            name_font = fit_text_to_width(name, FONTRES1, name_box_width, 52)
+            kt_font = ImageFont.truetype(FONTRES1, extrainfosize)
+            title_font = ImageFont.truetype(FONTRES1, extrainfosize)
+        else:
+            raise OSError("Custom fonts not available")
     except OSError:
         # Fallback to default font if custom fonts are not available
         print("[WARNING] Custom fonts not found, using default font")
@@ -325,8 +363,19 @@ def create_card_jpg(name: str, kt: str, title: str, photo_path, output_path, rem
     # Draw Card type
     draw.text((side_margin, 555), "Starfsmannakort", font=FONT2, fill="White")
 
-    # Save to JPG
-    card.save(output_path, format="JPEG", quality=100)
+    # Save to JPG with optimal settings for Zebra printers
+    if hasattr(output_path, "write"):
+        # BytesIO object - optimize for card printing
+        card_rgb = card.convert("RGB")
+        card_rgb.save(
+            output_path, format="JPEG", quality=95, optimize=True, dpi=(300, 300)
+        )
+    else:
+        # File path - save as high quality JPEG
+        card_rgb = card.convert("RGB")
+        card_rgb.save(
+            output_path, format="JPEG", quality=95, optimize=True, dpi=(300, 300)
+        )
 
     return card
 

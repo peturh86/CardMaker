@@ -5,8 +5,8 @@ from PIL import Image
 import tempfile
 import os
 
-from .card import create_card_jpg
-from .print import print_image
+from app.card import create_card_jpg
+from app.print import print_image
 
 app = FastAPI()
 
@@ -158,7 +158,7 @@ async def generate_and_print_card_endpoint(
 async def list_printers():
     """List all available CUPS printers"""
     try:
-        from .print import get_available_printers
+        from print import get_available_printers
 
         printers = get_available_printers()
 

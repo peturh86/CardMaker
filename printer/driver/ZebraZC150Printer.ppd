@@ -1,0 +1,1204 @@
+*PPD-Adobe: "4.3"
+*%
+*% Zebra Jaguar Card Printer PPD for Common UNIX Printing System (CUPS).
+*% Zebra Technologies
+*% 
+
+*FormatVersion: "4.3"
+*FileVersion: "1.0.0.1"
+*PCFileName: "ZC150.PPD"
+*Product: "(Card Printer)"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*Manufacturer: "Zebra"
+*ModelName: "ZC150"
+*ShortNickName: "ZC150"
+*NickName: "ZC150"
+*PSVersion: "(3010.000) 550"
+*LanguageLevel: "2"
+*ColorDevice: True
+*DefaultColorSpace: RGB
+*FileSystem: False
+*Throughput: "3"
+*LandscapeOrientation: Any
+*TTRasterizer: Type42
+*cupsModelNumber: "1"
+*Product: "(Card Printer)"
+*VariablePaperSize: False
+*cupsVersion: 1.4
+*cupsModelNumber: "1"
+*cupsManualCopies: False
+
+*cupsPreFilter:"application/pdf 10 pdftojgpdf"
+*cupsFilter: "application/vnd.cups-raster 50 /usr/lib/cups/filter/rastertojg"
+
+*% Changeable only through the command line or by application interfaces.
+*Copies: 1
+
+*EnableLog: 0
+*EachDayLogFile: 0
+*Separator:"|"
+*FileName:"ZTCLog"
+*StaticText:""
+*Time: 0
+*Date: 0
+*SerialNumber: 0
+*IPAddress: 0
+*UserName: 0
+*JobID: 0
+*MTrack1: 0
+*MTrack2: 0
+*MTrack3: 0
+*PrinterSerialNo:""
+*PrinterIPAddress:""
+*SettingsChanged:0
+*RibbonChanged:0
+
+*MagEncoderVerification:1
+*CardTypeNo:1
+*MagHex:0
+*PrintAndEncodeOnSameSide:0
+
+*%***********YMCOptimization*********%*
+*Brightness:0
+*Contrast:0
+*SharpFilter:2
+*PreHeat:0
+*IntensityYellow:100
+*IntensityMagenta:100
+*IntensityCyan:100
+*IntensityKDye:100
+*YMCRatio:1
+*%*****************KOptimzation****************%*
+*%MonochromeConversion:0
+*%ThresholdK:128
+*%BrightnessK:0
+*%ContrastK:0
+*%PreheatK:0
+*%IntensityK:0
+*%MonoOpt:0
+
+*%*****************Front KOptimzation****************%*
+*FrontMonochromeConversion:1
+*FrontThresholdK:128
+*FrontBrightnessK:0
+*FrontContrastK:0
+*FrontPreheatK:0
+*FrontIntensityK:100
+*FrontOptK:2
+*%*****************Back KOptimzation****************%*
+*BackMonochromeConversion:1
+*BackThresholdK:128
+*BackBrightnessK:0
+*BackContrastK:0
+*BackPreheatK:0
+*BackIntensityK:100
+*BackOptK:2
+
+*%********************** Overlay Extraction******************%*
+*FrontOvType:1
+*FrontOvBMP:""
+*FrontOvRotate:0
+*FrontOvInvert:0
+*FrontOvIntensity:0
+*BackOvType:1
+*BackOvBMP:""
+*BackOvRotate:0
+*BackOvInvert:0
+*BackOvIntensity:0
+
+*%********************** Laminate settings ******************%*
+*FrontLType:1
+*FrontLBMP:""
+*FrontLRotate:0
+*FrontLInvert:0
+*FrontLIntensity:100
+*BackLType:1
+*BackLBMP:""
+*BackLRotate:0
+*BackLInvert:0
+*BackLIntensity:100
+*%********************** Sr Extraction******************%*
+*FrontSrType:5
+*FrontSrBMP:""
+*FrontSrIntensity:100
+*BackSrType:5
+*BackSrBMP:""
+*BackSrIntensity:100
+*%********************** P Extraction******************%*
+*FrontPType:5
+*FrontPBMP:""
+*FrontPRotate:0
+*FrontPInvert:0
+*BackPType:5
+*BackPBMP:""
+*BackPRotate:0
+*BackPInvert:0
+*%********************** K Extraction******************%*
+*FrontKType:9
+*FrontRextract:0
+*FrontGextract:0
+*FrontBextract:0
+*BackKType:9
+*BackRextract:0
+*BackGextract:0
+*BackBextract:0
+*%********************** Half panel******************%*
+*FrontHalfType:0
+*FrontOffset:0
+*FrontColorThreshold:10
+*BackHalfType:0
+*BackOffset:0
+*BackColorThreshold:10
+*%***************************************
+
+*%********************** Custom Encoding ******************%*
+*Track1Type:0
+*Track1Density:1
+*Track1ChrSize:4
+*Track1LRC:0
+*Track1Start:"%"
+*Track1SentinelOffset:0
+*Track1End:"?"
+
+*Track2Type:0
+*Track2Density:0
+*Track2ChrSize:2
+*Track2LRC:0
+*Track2Start:";"
+*Track2SentinelOffset:0
+*Track2End:"?"
+
+*Track3Type:0
+*Track3Density:1
+*Track3ChrSize:2
+*Track3LRC:0
+*Track3Start:";"
+*Track3SentinelOffset:0
+*Track3End:"?"
+*%***************************************%*
+
+*OpenGroup: CardOptions/Card Setup
+
+*OpenUI *CardSource/Card Source: PickOne
+*OrderDependency: 10 AnySetup *CardSource
+*DefaultCardSource: 1Feeder
+*CardSource 0Manual/Manual Feed Slot: ""
+*CardSource 1Feeder/Input Hopper: ""
+*CardSource 3Auto/Auto feed: ""
+*CardSource 2InPrinter/Already in printer: ""
+*CloseUI: *CardSource
+
+*OpenUI *CardDestination/Card Destination: PickOne
+*OrderDependency: 10 AnySetup *CardDestination
+*DefaultCardDestination: 0Hopper
+*CardDestination 0Hopper/Output hopper: ""
+*CardDestination 1Reject/Reject tray: ""
+*CardDestination 2InPrinter/Leave in printer:""
+*CloseUI: *CardDestination
+
+*OpenUI *ImageSize/Image Size: PickOne
+*OrderDependency: 10 AnySetup *ImageSize
+*DefaultImageSize: 0Default
+*ImageSize 0Default/Default size (1006 x 640 pixels): "<</PageSize[241.5 153.6]/ImagingBBox null>>setpagedevice"
+*ImageSize 1Compatibility/ZXP S3 Compatibility (1024 x 640 pixels):"<</PageSize[245.8 153.6]/ImagingBBox null>>setpagedevice"
+*ImageSize 2Compatibility/ZXP S9 Compatibility (1024 x 648 pixels):"<</PageSize[245.8 155.5]/ImagingBBox null>>setpagedevice"
+*CloseUI: *ImageSize
+
+*OpenUI *PageSize: PickOne
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: CR80
+*PageSize CR80/CR80: "<</PageSize[241.5 153.6]/ImagingBBox null>>setpagedevice"
+*PageSize CR81/CR81: "<</PageSize[245.8 153.6]/ImagingBBox null>>setpagedevice"
+*PageSize CR82/CR82: "<</PageSize[245.8 155.5]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion: PickOne
+*OrderDependency: 10 AnySetup *PageRegion
+*DefaultPageRegion: CR80
+*PageRegion CR80/CR80: "<</PageSize[241.5 153.6]/ImagingBBox null >>setpagedevice"
+*PageRegion CR81/CR81: "<</PageSize[245.8 153.6]/ImagingBBox null >>setpagedevice"
+*PageRegion CR82/CR82: "<</PageSize[245.8 155.5]/ImagingBBox null >>setpagedevice"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: CR80
+*ImageableArea CR80/CR80: "0 0 241.5 153.6"
+*ImageableArea CR81/CR81: "0 0 245.8 153.6"
+*ImageableArea CR82/CR82: "0 0 245.8 155.5"
+
+*DefaultPaperDimension: CR80
+*PaperDimension CR80/CR80: "241.5 153.6"
+*PaperDimension CR81/CR81: "245.8 153.6"
+*PaperDimension CR82/CR82: "245.8 155.5"
+
+*RequiresPageRegion All: true
+
+*OpenUI *DualSidePrinting/Print On Both Sides: PickOne
+*OrderDependency: 10 AnySetup *DualSidePrinting
+*DefaultDualSidePrinting: 1true
+*DualSidePrinting 0false/No: ""
+*DualSidePrinting 1true/Yes: ""
+*CloseUI: *DualSidePrinting
+
+*OpenUI *Orientation/Orientation: PickOne
+*OrderDependency: 10 AnySetup *Orientation
+*DefaultOrientation: 0Landscape
+*Orientation 0Landscape/Landscape: "setpagedevice"
+*Orientation 1Portrait/Portrait: "setpagedevice"
+*CloseUI: *Orientation
+
+*OpenUI *Rotation/Rotate 180 Degree: PickOne
+*OrderDependency: 10 AnySetup *Rotation
+*DefaultRotation: 0None
+*Rotation 0None/None: "setpagedevice"
+*Rotation 1Front/Front: "setpagedevice"
+*Rotation 2Back/Back: "setpagedevice"
+*Rotation 3Both/Both: "setpagedevice"
+*CloseUI: *Rotation
+
+*OpenUI *PrintFrontimageOnBackSide/Print front image on back Side: PickOne
+*OrderDependency: 10 AnySetup *PrintFrontimageOnBackSide
+*DefaultPrintFrontimageOnBackSide: 0no
+*PrintFrontimageOnBackSide 0no/No: ""
+*PrintFrontimageOnBackSide 1yes/Yes: ""
+*CloseUI: *PrintFrontimageOnBackSide
+
+*OpenUI *ColorMatching/Color Matching: PickOne
+*OrderDependency: 10 AnySetup *ColorMatching
+*DefaultColorMatching: System
+*ColorMatching System/System Color Management: "<</cupsColorOrder 0/cupsColorSpace 1/cupsBitsPerColor 8/HWResolution[300 300]>>setpagedevice"
+*CloseUI: *ColorMatching
+
+*% -----------------------------------------------------------------------*%
+*% --------------------Ribbon Information Page----------------------------*%
+*% -----------------------------------------------------------------------*%
+
+*OpenUI *RibbonName/Ribbon Name: PickOne
+*OrderDependency: 10 AnySetup *RibbonName
+*DefaultRibbonName: 0YMCKO
+
+*RibbonName 0YMCKO/YMCKO:""
+*RibbonName 1YMCKOK/YMCKOK:""
+*RibbonName 2HalfYMCKO/1/2 YMCKO:""
+*RibbonName 3HalfYMCKOKO/1/2 YMCKOKO:""
+*RibbonName 4YMCPKO/YMCPKO:""
+*RibbonName 5KdO/KdO:""
+*RibbonName 6KrO/KrO:""
+*RibbonName 7Black/Black:""
+*RibbonName 8White/White:""
+*RibbonName 9Red/Red:""
+*RibbonName 10Blue/Blue:""
+*RibbonName 11Gold/Gold:""
+*RibbonName 12Silver/Silver:""
+*RibbonName 13YMCKLL/YMCKLL:""
+*RibbonName 14SDYMCKO/SDYMCKO:""
+*RibbonName 15Hologram/Hologram:""
+*%RibbonName 16YMCKOO/YMCKOO:""
+*%RibbonName 17WrKr/WrKr:""
+*CloseUI: *RibbonName
+
+*OpenUI *RibbonCombination/Ribbon Combination: PickOne
+*OrderDependency: 10 AnySetup *RibbonCombination
+*DefaultRibbonCombination: 2FrontYmcoBackK
+
+*RibbonCombination 0FrontYmcko/Front YMCKO:""
+*RibbonCombination 1FrontYmckoBackYmcko/Front YMCKO, Back YMCKO:""
+*RibbonCombination 2FrontYmcoBackK/Front YMCO, Back K:""
+*RibbonCombination 4FrontYmckoBackK/Front YMCKO, Back K:""
+*RibbonCombination 5FrontYmckoBackKo/Front YMCKO, Back KO:""
+*RibbonCombination 6FrontYmckll/Front YMCKLL:""
+*RibbonCombination 7FrontYmckllBackYmckll/Front YMCKLL, Back YMCKLL:""
+*RibbonCombination 8FrontYmclBackKl/Front YMCL, Back KL:""
+*RibbonCombination 9FrontYmcpko/Front YMCPKO:""
+*RibbonCombination 10FrontYmcpkoBackYmcpko/Front YMCPKO, Back YMCPKO:""
+*RibbonCombination 11FrontYmcpoBackK/Front YMCPO, Back K:""
+*RibbonCombination 12FrontMono/Front MONO:""
+*RibbonCombination 13FrontMonoBackMono/Front MONO , Back MONO:""
+*RibbonCombination 14FrontKrO/Front KrO:""
+*RibbonCombination 15FrontKrOBackKrO/Front KrO,Back KrO:""
+*RibbonCombination 16FrontKdO/Front KdO:""
+*RibbonCombination 17FrontKdOBackKdO/Front KdO,Back KdO:""
+*RibbonCombination 18FrontYmcllBackK/Front YMCLL,Back K:""
+*RibbonCombination 19FrontSrDYmcko/Front SrDYMCKO:""
+*RibbonCombination 20FrontSrDYmcoBackK/Front SrDYMCO,Back K:""
+*RibbonCombination 21FrontSrDYmckoBackSrdYmcko/Front SrDYMCKO,Back SrDYMCKO:""
+*RibbonCombination 22FrontO/Front O:""
+*RibbonCombination 23FrontOBackO/Front O,Back O:""
+
+*RibbonCombination 24BackYmcko/Back YMCKO:""
+*RibbonCombination 25BackYmckoFrontYmcko/Back YMCKO, Front YMCKO:""
+*RibbonCombination 26BackYmcoFrontK/Back YMCO, Front K:""
+*RibbonCombination 28BackYmckoFrontK/Back YMCKO, Front K:""
+*RibbonCombination 29BackYmckoFrontKo/Back YMCKO, Front KO:""
+*RibbonCombination 30BackYmckll/Back YMCKLL:""
+*RibbonCombination 31BackYmckllFrontYmckll/Back YMCKLL, Front YMCKLL:""
+*RibbonCombination 32BackYmclFrontKl/Back YMCL, Front KL:""
+*RibbonCombination 33BackYmcpko/Back YMCPKO:""
+*RibbonCombination 34BackYmcpkoFrontYmcpko/Back YMCPKO, Front YMCPKO:""
+*RibbonCombination 35BackYmcpoFrontK/Back YMCPO, Front K:""
+*RibbonCombination 36BackMono/Back MONO:""
+*RibbonCombination 37BackMonoFrontMono/Back MONO , Front MONO:""
+*RibbonCombination 38BackKrO/Back KrO:""
+*RibbonCombination 39BackKrOFrontKrO/Back KrO,Front KrO:""
+*RibbonCombination 40BackKdO/Back KdO:""
+*RibbonCombination 41BackKdOFrontKdO/Back KdO,Front KdO:""
+*RibbonCombination 42BackYmcllFrontK/Back YMCLL,Front K:""
+*RibbonCombination 43BackSrDYmcko/Back SrDYMCKO:""
+*RibbonCombination 44BackSrDYmcoFrontK/Back SrDYMCO,Front K:""
+*RibbonCombination 45BackSrDYmckoFrontSrdYmcko/Back SrDYMCKO,Front SrDYMCKO:""
+*RibbonCombination 46BackO/Back O:""
+*RibbonCombination 47BackOFrontO/Back O,Front O:""
+
+*CloseUI: *RibbonCombination
+
+*CloseGroup: CardOptions
+
+*OpenGroup: MagEncodingOption/Magnetic Encoding options
+
+*OpenUI *DisableMagEncoding/Magnetic Encoding: PickOne
+*OrderDependency: 10 AnySetup *DisableMagEncoding
+*DefaultDisableMagEncoding: 0no
+*DisableMagEncoding 0no/Enabled: "setpagedevice"
+*DisableMagEncoding 1yes/Disabled: "setpagedevice"
+*CloseUI: *DisableMagEncoding
+
+*OpenUI *Coercivity/Coercivity: PickOne
+*OrderDependency: 10 AnySetup *Coercivity
+*DefaultCoercivity: 2High
+*Coercivity 0None/None: "setpagedevice"
+*Coercivity 1Low/Low: "setpagedevice"
+*Coercivity 2High/High: "setpagedevice"
+*CloseUI: *Coercivity
+
+*OpenUI *EncodingType/Encoding Type: PickOne
+*OrderDependency: 10 AnySetup *EncodingType
+*DefaultEncodingType: 1iso
+*EncodingType 0none/None: "setpagedevice"
+*EncodingType 1iso/ISO: "setpagedevice"
+*EncodingType 2aamva/AAMVA: "setpagedevice"
+*EncodingType 3binary/BINARY: "setpagedevice"
+*EncodingType 4custom/CUSTOM: "setpagedevice"
+*%%EncodingType 5jis/JIS: "setpagedevice"
+*CloseUI: *EncodingType
+
+*OpenUI *EncodingOnly/Encoding Only: PickOne
+*OrderDependency: 10 AnySetup *EncodingOnly
+*DefaultEncodingOnly: 0no
+*EncodingOnly 0no/No: "setpagedevice"
+*EncodingOnly 1yes/Yes: "setpagedevice"
+*CloseUI: *EncodingOnly
+
+*OpenUI *EncoderVerification/Encoder Verification: PickOne
+*OrderDependency: 10 AnySetup *EncoderVerification
+*DefaultEncoderVerification: 0no
+*EncoderVerification 0no/No: "setpagedevice"
+*EncoderVerification 1yes/Yes: "setpagedevice"
+*CloseUI: *EncoderVerification
+
+*CloseGroup: MagEncodingOption
+
+*%-----------------------------------------------------------------------*%
+*%--------------------UI Constrains Information Page---------------------*%
+*%-----------------------------------------------------------------------*%
+
+*%---------------------------YMCKO---------------------------------*%
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 47BackOFrontO
+*%---------------------------YMCKOK---------------------------------*%
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 1YMCKOK *RibbonCombination 47BackOFrontO
+
+*%---------------------------1/2 YMCKO---------------------------------*%
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 47BackOFrontO
+
+*%---------------------------1/2 YMCKOKO---------------------------------*%
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 3HalfYMCKOKO *RibbonCombination 47BackOFrontO
+
+*%---------------------------YMCPKO---------------------------------*%
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 4YMCPKO *RibbonCombination 47BackOFrontO
+
+*%---------------------------KdO---------------------------------*%
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 5KdO *RibbonCombination 47BackOFrontO
+*%---------------------------KrO---------------------------------*%
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 6KrO *RibbonCombination 47BackOFrontO
+
+*%---------------------------Black---------------------------------*%
+*UIConstraints: *RibbonName 7Black *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 7Black *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 7Black *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 7Black *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 7Black *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 7Black *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 7Black *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 7Black *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 7Black *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 7Black *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 7Black *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 7Black *RibbonCombination 47BackOFrontO
+
+*%---------------------------White---------------------------------*%
+*UIConstraints: *RibbonName 8White *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 8White *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 8White *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 8White *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 8White *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 8White *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 8White *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 8White *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 8White *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 8White *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 8White *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 8White *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 8White *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 8White *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 8White *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 8White *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 8White *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 8White *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 8White *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 8White *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 8White *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 8White *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 8White *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 8White *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 8White *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 8White *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 8White *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 8White *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 8White *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 8White *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 8White *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 8White *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 8White *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 8White *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 8White *RibbonCombination 47BackOFrontO
+*%---------------------------Red---------------------------------*%
+*UIConstraints: *RibbonName 9Red *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 9Red *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 9Red *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 9Red *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 9Red *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 9Red *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 9Red *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 9Red *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 9Red *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 9Red *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 9Red *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 9Red *RibbonCombination 47BackOFrontO
+
+*%---------------------------Blue---------------------------------*%
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 47BackOFrontO
+
+*%---------------------------Gold---------------------------------*%
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 47BackOFrontO
+
+*%---------------------------Silver---------------------------------*%
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 47BackOFrontO
+
+*%---------------------------YMCKLL---------------------------------*%
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 13YMCKLL *RibbonCombination 47BackOFrontO
+
+*%---------------------------SDYMCKO---------------------------------*%
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 22FrontO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 23FrontOBackO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 46BackO
+*UIConstraints: *RibbonName 14SDYMCKO *RibbonCombination 47BackOFrontO
+
+*%---------------------------Hologram Overlay---------------------------------*%
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 0FrontYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 6FrontYmckll
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 9FrontYmcpko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 12FrontMono
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 14FrontKrO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 16FrontKdO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 24BackYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 30BackYmckll
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 33BackYmcpko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 36BackMono
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 38BackKrO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 40BackKdO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *RibbonName 15Hologram *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+
+*%==== *DualSidePrinting UI Constraints With Ribbon Combination====
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 23FrontOBackO
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *DualSidePrinting 0false *RibbonCombination 47BackOFrontO
+
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 0FrontYmcko
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 6FrontYmckll
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 9FrontYmcpko
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 12FrontMono
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 14FrontKrO
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 16FrontKdO
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 22FrontO
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 24BackYmcko
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 30BackYmckll
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 33BackYmcpko
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 36BackMono
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 38BackKrO
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 40BackKdO
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *DualSidePrinting 1true *RibbonCombination 46BackO
+
+*%==== *DualSidePrinting UI Constraints With Rotation====
+
+*UIConstraints: *DualSidePrinting 0false *Rotation 2Back
+*UIConstraints: *DualSidePrinting 0false *Rotation 3Both
+
+*%==== *Coercivity UI Constraints With Mag Encdoing Disable options====
+
+*UIConstraints: *DisableMagEncoding 1yes *Coercivity 1Low
+*UIConstraints: *DisableMagEncoding 1yes *Coercivity 2High
+
+*UIConstraints: *DisableMagEncoding 0no *Coercivity 0None
+
+*%==== *EncodingType UI Constraints With Mag Encdoing Disable options====
+
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 1iso
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 2aamva
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 3binary
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 4custom
+
+*UIConstraints: *DisableMagEncoding 0no *EncodingType 0none
+
+*%=======================*PrintFrontimageOnBackSide UI Constraints With RibbonCombination options====
+
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 0FrontYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 1FrontYmckoBackYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 2FrontYmcoBackK
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 4FrontYmckoBackK
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 5FrontYmckoBackKo
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 6FrontYmckll
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 7FrontYmckllBackYmckll
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 8FrontYmclBackKl
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 9FrontYmcpko
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 10FrontYmcpkoBackYmcpko
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 11FrontYmcpoBackK
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 12FrontMono
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 13FrontMonoBackMono
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 14FrontKrO
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 15FrontKrOBackKrO
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 16FrontKdO
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 17FrontKdOBackKdO
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 18FrontYmcllBackK
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 19FrontSrDYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 20FrontSrDYmcoBackK
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 21FrontSrDYmckoBackSrdYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 22FrontO
+*UIConstraints: *PrintFrontimageOnBackSide  1yes *RibbonCombination 23FrontOBackO
+
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 24BackYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 25BackYmckoFrontYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 26BackYmcoFrontK
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 28BackYmckoFrontK
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 29BackYmckoFrontKo
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 30BackYmckll
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 31BackYmckllFrontYmckll
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 32BackYmclFrontKl
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 33BackYmcpko
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 34BackYmcpkoFrontYmcpko
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 35BackYmcpoFrontK
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 36BackMono
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 37BackMonoFrontMono
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 38BackKrO
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 39BackKrOFrontKrO
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 40BackKdO
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 41BackKdOFrontKdO
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 42BackYmcllFrontK
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 43BackSrDYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 44BackSrDYmcoFrontK
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 45BackSrDYmckoFrontSrdYmcko
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 46BackO
+*UIConstraints: *PrintFrontimageOnBackSide  0no *RibbonCombination 47BackOFrontO

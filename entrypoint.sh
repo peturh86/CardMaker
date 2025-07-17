@@ -14,7 +14,8 @@ for i in {1..10}; do
 done
 
 echo "Adding printer ${PRINTER_NAME} at ${PRINTER_IP}"
-lpadmin -p "$PRINTER_NAME" -E -v "socket://${PRINTER_IP}" -P "/etc/cups/ppd/${PRINTER_NAME}.ppd"
+lpadmin -p "$PRINTER_NAME" -E -v "socket://${PRINTER_IP}" -P "/usr/share/cups/model/Zebra${PRINTER_NAME}Printer.ppd"
 
 echo "Starting FastAPI server..."
+cd /app
 exec uvicorn app.main:app --host 0.0.0.0 --port 8000

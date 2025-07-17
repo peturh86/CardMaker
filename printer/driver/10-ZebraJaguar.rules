@@ -1,0 +1,16 @@
+# This udev will make Zebra Jaguar printer detect automatically
+
+ACTION=="add", SUBSYSTEM=="usb",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0146", MODE="0666" RUN+="JgPnP 1 %p"
+ACTION=="add", SUBSYSTEM=="usb",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0147", MODE="0666" RUN+="JgPnP 1 %p"
+ACTION=="add", SUBSYSTEM=="usb",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0148", MODE="0666" RUN+="JgPnP 1 %p"
+ACTION=="add", SUBSYSTEM=="usb",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0149", MODE="0666" RUN+="JgPnP 1 %p"
+ 
+# usblp device add trigger (needed when usblp is already loaded)
+ACTION=="add", KERNEL=="lp*",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0146", MODE="0666" RUN+="JgPnP 1 %p"
+ACTION=="add", KERNEL=="lp*",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0147", MODE="0666" RUN+="JgPnP 1 %p"
+ACTION=="add", KERNEL=="lp*",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0148", MODE="0666" RUN+="JgPnP 1 %p"
+ACTION=="add", KERNEL=="lp*",ATTRS{idVendor}=="0a5f", ATTRS{idProduct}=="0149", MODE="0666" RUN+="JgPnP 1 %p"
+
+
+ACTION=="remove", SUBSYSTEM=="usb", ENV{ID_USB_INTERFACES}=="*:0701*:*", RUN+="JgPnP 0 %p"
+

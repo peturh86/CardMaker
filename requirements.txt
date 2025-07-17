@@ -5,4 +5,3 @@ rembg
 python-barcode[images]
 onnxruntime
 python-multipart
-cups

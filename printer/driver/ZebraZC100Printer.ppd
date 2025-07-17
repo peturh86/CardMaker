@@ -1,0 +1,457 @@
+*PPD-Adobe: "4.3"
+*%
+*% Zebra Jaguar Card Printer PPD for Common UNIX Printing System (CUPS).
+*% Zebra Technologies
+*% 
+
+*FormatVersion: "4.3"
+*FileVersion: "1.0.0.1"
+*PCFileName: "ZC100.PPD"
+*Product: "(Card Printer)"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*Manufacturer: "Zebra"
+*ModelName: "ZC100"
+*ShortNickName: "ZC100"
+*NickName: "ZC100"
+*PSVersion: "(3010.000) 550"
+*LanguageLevel: "2"
+*ColorDevice: True
+*DefaultColorSpace: RGB
+*FileSystem: False
+*Throughput: "3"
+*LandscapeOrientation: Any
+*TTRasterizer: Type42
+*cupsModelNumber: "1"
+*Product: "(Card Printer)"
+*VariablePaperSize: False
+*cupsVersion: 1.4
+*cupsModelNumber: "1"
+*cupsManualCopies: False
+
+*cupsPreFilter:"application/pdf 10 pdftojgpdf"
+*cupsFilter: "application/vnd.cups-raster 50 /usr/lib/cups/filter/rastertojg"
+
+*% Changeable only through the command line or by application interfaces.
+*Copies: 1
+
+*EnableLog: 0
+*EachDayLogFile: 0
+*Separator:"|"
+*FileName:"ZTCLog"
+*StaticText:""
+*Time: 0
+*Date: 0
+*SerialNumber: 0
+*IPAddress: 0
+*UserName: 0
+*JobID: 0
+*MTrack1: 0
+*MTrack2: 0
+*MTrack3: 0
+*PrinterSerialNo:""
+*PrinterIPAddress:""
+*SettingsChanged:0
+*RibbonChanged:0
+
+*MagEncoderVerification:1
+*CardTypeNo:1
+*MagHex:0
+*PrintAndEncodeOnSameSide:0
+
+*%***********YMCOptimization*********%*
+*Brightness:0
+*Contrast:0
+*SharpFilter:2
+*PreHeat:0
+*IntensityYellow:100
+*IntensityMagenta:100
+*IntensityCyan:100
+*IntensityKDye:100
+*YMCRatio:1
+*%*****************KOptimzation****************%*
+*%MonochromeConversion:0
+*%ThresholdK:128
+*%BrightnessK:0
+*%ContrastK:0
+*%PreheatK:0
+*%IntensityK:0
+*%MonoOpt:0
+
+*%*****************Front KOptimzation****************%*
+*FrontMonochromeConversion:1
+*FrontThresholdK:128
+*FrontBrightnessK:0
+*FrontContrastK:0
+*FrontPreheatK:0
+*FrontIntensityK:100
+*FrontOptK:2
+*%*****************Back KOptimzation****************%*
+*BackMonochromeConversion:1
+*BackThresholdK:128
+*BackBrightnessK:0
+*BackContrastK:
+*BackPreheatK:0
+*BackIntensityK:100
+*BackOptK:2
+
+*%********************** Overlay Extraction******************%*
+*FrontOvType:1
+*FrontOvBMP:""
+*FrontOvRotate:0
+*FrontOvInvert:0
+*FrontOvIntensity:0
+*BackOvType:1
+*BackOvBMP:""
+*BackOvRotate:0
+*BackOvInvert:0
+*BackOvIntensity:0
+
+*%********************** Laminate settings ******************%*
+*%FrontLType:1
+*%FrontLBMP:""
+*%FrontLRotate:0
+*%FrontLInvert:0
+*%FrontLIntensity:100
+*%BackLType:1
+*%BackLBMP:""
+*%BackLRotate:0
+*%BackLInvert:0
+*%BackLIntensity:100
+
+*%********************** Sr Extraction******************%*
+*FrontSrType:5
+*FrontSrBMP:""
+*FrontSrIntensity:100
+*%BackSrType:5
+*%BackSrBMP:""
+*%BackSrIntensity:100
+*%********************** P Extraction******************%*
+*FrontPType:5
+*FrontPBMP:""
+*FrontPRotate:0
+*FrontPInvert:0
+*%BackPType:0
+*%BackPBMP:""
+*%BackPRotate:0
+*%BackPInvert:0
+*%********************** K Extraction******************%*
+*FrontKType:9
+*FrontRextract:0
+*FrontGextract:0
+*FrontBextract:0
+*%BackKType:9
+*%BackRextract:0
+*%BackGextract:0
+*%BackBextract:0
+*%********************** Half panel******************%*
+*%FrontHalfType:0
+*%FrontOffset:0
+*%FrontColorThreshold:10
+*%BackHalfType:0
+*%BackOffset:0
+*%BackColorThreshold:10
+*%***************************************%*
+
+*%********************** Custom Encoding ******************%*
+*Track1Type:0
+*Track1Density:1
+*Track1ChrSize:4
+*Track1LRC:0
+*Track1Start:"%"
+*Track1SentinelOffset:0
+*Track1End:"?"
+
+*Track2Type:0
+*Track2Density:0
+*Track2ChrSize:2
+*Track2LRC:0
+*Track2Start:";"
+*Track2SentinelOffset:0
+*Track2End:"?"
+
+*Track3Type:0
+*Track3Density:1
+*Track3ChrSize:2
+*Track3LRC:0
+*Track3Start:";"
+*Track3SentinelOffset:0
+*Track3End:"?"
+*%***************************************%*
+*OpenGroup: CardOptions/Card Setup
+
+*OpenUI *CardSource/Card Source: PickOne
+*OrderDependency: 10 AnySetup *CardSource
+*DefaultCardSource: 1Feeder
+*CardSource 0Manual/Manual Feed Slot: ""
+*CardSource 1Feeder/Input Hopper: ""
+*CardSource 3Auto/Auto feed: ""
+*CardSource 2InPrinter/Already in printer: ""
+*CloseUI: *CardSource
+
+*OpenUI *CardDestination/Card Destination: PickOne
+*OrderDependency: 10 AnySetup *CardDestination
+*DefaultCardDestination: 0Hopper
+*CardDestination 0Hopper/Output hopper: ""
+*%%CardDestination 1Reject/Reject tray: ""
+*CardDestination 2InPrinter/Leave in printer:""
+*CloseUI: *CardDestination
+
+*OpenUI *ImageSize/Image Size: PickOne
+*OrderDependency: 10 AnySetup *ImageSize
+*DefaultImageSize: 0Default
+*ImageSize 0Default/Default size (1006 x 640 pixels): "<</PageSize[241.5 153.6]/ImagingBBox null>>setpagedevice"
+*ImageSize 1Compatibility/ZXP S3 Compatibility (1024 x 640 pixels):"<</PageSize[245.8 153.6]/ImagingBBox null>>setpagedevice"
+*ImageSize 2Compatibility/ZXP S9 Compatibility (1024 x 648 pixels):"<</PageSize[245.8 155.5]/ImagingBBox null>>setpagedevice"
+*CloseUI: *ImageSize
+
+*OpenUI *PageSize: PickOne
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: CR80
+*PageSize CR80/CR80: "<</PageSize[241.5 153.6]/ImagingBBox null>>setpagedevice"
+*PageSize CR81/CR81: "<</PageSize[245.8 153.6]/ImagingBBox null>>setpagedevice"
+*PageSize CR82/CR82: "<</PageSize[245.8 155.5]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion: PickOne
+*OrderDependency: 10 AnySetup *PageRegion
+*DefaultPageRegion: CR80
+*PageRegion CR80/CR80: "<</PageSize[241.5 153.6]/ImagingBBox null >>setpagedevice"
+*PageRegion CR81/CR81: "<</PageSize[245.8 153.6]/ImagingBBox null >>setpagedevice"
+*PageRegion CR82/CR82: "<</PageSize[245.8 155.5]/ImagingBBox null >>setpagedevice"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: CR80
+*ImageableArea CR80/CR80: "0 0 241.5 153.6"
+*ImageableArea CR81/CR81: "0 0 245.8 153.6"
+*ImageableArea CR82/CR82: "0 0 245.8 155.5"
+
+*DefaultPaperDimension: CR80
+*PaperDimension CR80/CR80: "241.5 153.6"
+*PaperDimension CR81/CR81: "245.8 153.6"
+*PaperDimension CR82/CR82: "245.8 155.5"
+
+*RequiresPageRegion All: true
+
+*OpenUI *DualSidePrinting/Print On Both Sides: PickOne
+*OrderDependency: 10 AnySetup *DualSidePrinting
+*DefaultDualSidePrinting: 0false
+*DualSidePrinting 0false/No: ""
+*%DualSidePrinting 1true/Yes: ""
+*CloseUI: *DualSidePrinting
+
+*OpenUI *Orientation/Orientation: PickOne
+*OrderDependency: 10 AnySetup *Orientation
+*DefaultOrientation: 0Landscape
+*Orientation 0Landscape/Landscape: "setpagedevice"
+*Orientation 1Portrait/Portrait: "setpagedevice"
+*CloseUI: *Orientation
+
+*OpenUI *Rotation/Rotate 180 Degree: PickOne
+*OrderDependency: 10 AnySetup *Rotation
+*DefaultRotation: 0None
+*Rotation 0None/None: "setpagedevice"
+*Rotation 1Front/Front: "setpagedevice"
+*%Rotation 2Back/Back: "setpagedevice"
+*%Rotation 3Both/Both: "setpagedevice"
+*CloseUI: *Rotation
+
+*OpenUI *PrintFrontimageOnBackSide/Print front image on back Side: PickOne
+*OrderDependency: 10 AnySetup *PrintFrontimageOnBackSide
+*DefaultPrintFrontimageOnBackSide: 0no
+*PrintFrontimageOnBackSide 0no/No: ""
+*%PrintFrontimageOnBackSide 1yes/Yes: ""
+*CloseUI: *PrintFrontimageOnBackSide
+
+*OpenUI *ColorMatching/Color Matching: PickOne
+*OrderDependency: 10 AnySetup *ColorMatching
+*DefaultColorMatching: System
+*ColorMatching System/System Color Management: "<</cupsColorOrder 0/cupsColorSpace 1/cupsBitsPerColor 8/HWResolution[300 300]>>setpagedevice"
+*CloseUI: *ColorMatching
+
+*% -----------------------------------------------------------------------*%
+*% --------------------Ribbon Information Page----------------------------*%
+*% -----------------------------------------------------------------------*%
+
+*OpenUI *RibbonName/Ribbon Name: PickOne
+*OrderDependency: 10 AnySetup *RibbonName
+*DefaultRibbonName: 0YMCKO
+
+*RibbonName 0YMCKO/YMCKO:""
+*%RibbonName 1YMCKOK/YMCKOK:""
+*RibbonName 2HalfYMCKO/1/2 YMCKO:""
+*%RibbonName 3HalfYMCKOKO/1/2 YMCKOKO:""
+*%RibbonName 4YMCPKO/YMCPKO:""
+*%RibbonName 5KdO/KdO:""
+*%RibbonName 6KrO/KrO:""
+*RibbonName 7Black/Black:""
+*RibbonName 8White/White:""
+*RibbonName 9Red/Red:""
+*RibbonName 10Blue/Blue:""
+*RibbonName 11Gold/Gold:""
+*RibbonName 12Silver/Silver:""
+*%RibbonName 13YMCKLL/YMCKLL:""
+*%RibbonName 14SDYMCKO/SDYMCKO:""
+*%RibbonName 15Hologram/Hologram:""
+*%RibbonName 16YMCKOO/YMCKOO:""
+*%RibbonName 17WrKr/WrKr:""
+*CloseUI: *RibbonName
+
+*OpenUI *RibbonCombination/Ribbon Combination: PickOne
+*OrderDependency: 10 AnySetup *RibbonCombination
+*DefaultRibbonCombination: 0FrontYmcko
+
+*RibbonCombination 0FrontYmcko/YMCKO Front:""
+*%RibbonCombination 1FrontYmcoBackK/YMCO Front / K Back:""
+*%RibbonCombination 2FrontYmckoBackYmcko/YMCKO Front / YMCKO Back:""
+*%RibbonCombination 3FrontYmckoBackK/YMCKO Front / K Back:""
+*%RibbonCombination 4FrontYmckoBackKo/YMCKO Front / KO Back:""
+*%RibbonCombination 5FrontYmcpko/YMCPKO Front:""
+*%RibbonCombination 6FrontYmcpoBackK/YMCPO Front / K Back:""
+*%RibbonCombination 7FrontYmcpkoBackYmcpko/YMCPKO Front / YMCPKO Back:""
+*%RibbonCombination 8FrontKdO/KdO Front:""
+*%RibbonCombination 9FrontKdOBackKdO/KdO Front / KdO Back:""
+*%RibbonCombination 10FrontKrO/KrO Front:""
+*%RibbonCombination 11FrontKrOBackKrO/KrO Front / KrO Back:""
+*RibbonCombination 12FrontMono/Monochrome Front:""
+*%RibbonCombination 13FrontMonoBackMono/Monochrome Front / Monochrome Back:""
+*%RibbonCombination 14FrontYmckll/YMCKLL Front:""
+*%RibbonCombination 15FrontYmcllBackK/YMCLL Front / K Back:""
+*%RibbonCombination 16FrontYmclBackKl/YMCL Front / KL Back:""
+*%RibbonCombination 17FrontYmckllBackYmckll/YMCKLL Front / YMCKLL Back:""
+*%RibbonCombination 18FrontSDYmcko/SDYMCKO Front:""
+*%RibbonCombination 19FrontSDYmcoBackK/SDYMCO Front / K Back:""
+*%RibbonCombination 20FrontSDYmckoBackSdYmcko/SDYMCKO Front / SDYMCKO Back:""
+*%RibbonCombination 21FrontSDBackYmcko/SD Front / YMCKO Back:""
+*%RibbonCombination 22FrontO/O Front:""
+*%RibbonCombination 23FrontOBackO/O Front / O Back:""
+
+*%RibbonCombination 24BackYmcko/YMCKO Back:""
+*%RibbonCombination 25BackYmcoFrontK/YMCO Back / K Front:""
+*%RibbonCombination 26BackYmckoFrontYmcko/YMCKO Back / YMCKO Front:""
+*%RibbonCombination 27BackYmckoFrontK/YMCKO Back / K Front:""
+*%RibbonCombination 28BackYmckoFrontKo/YMCKO Back / KO Front:""
+*%RibbonCombination 29BackYmcpko/YMCPKO Back:""
+*%RibbonCombination 30BackYmcpoFrontK/YMCPO Back / K Front:""
+*%RibbonCombination 31BackYmcpkoFrontYmcpko/YMCPKO Back / YMCPKO Front:""
+*%RibbonCombination 32BackKdO/KdO Back:""
+*%RibbonCombination 33BackKdOFrontKdO/KdO Back / KdO Front:""
+*%RibbonCombination 34BackKrO/KrO Back:""
+*%RibbonCombination 35BackKrOFrontKrO/KrO Back / KrO Front:""
+*%RibbonCombination 36BackMono/Monochrome Back:""
+*%RibbonCombination 37BackMonoFrontMono/Monochrome Back / Monochrome Front:""
+*%RibbonCombination 38BackYmckll/YMCKLL Back:""
+*%RibbonCombination 39BackYmcllFrontK/YMCLL Back / K Front:""
+*%RibbonCombination 40BackYmclFrontKl/YMCL Back / KL Front:""
+*%RibbonCombination 41BackYmckllFrontYmckll/YMCKLL Back / YMCKLL Front:""
+*%RibbonCombination 42BackSDYmcko/SDYMCKO Back:""
+*%RibbonCombination 43BackSDYmcoFrontK/SDYMCO Back / K Front:""
+*%RibbonCombination 44BackSDYmckoFrontSdYmcko/SDYMCKO Back / SDYMCKO Front:""
+*%RibbonCombination 45BackSDFrontYmcko/SD Back / YMCKO Front:""
+*%RibbonCombination 46BackO/O Back:""
+*%RibbonCombination 47BackOFrontO/O Back / O Front:""
+
+*%RibbonCombination 48FrontYmckoo/YMCKOO Front:""
+*%RibbonCombination 49FrontYmcooBackK/YMCOO Front / K Back:""
+*%RibbonCombination 50FrontYmcoBackKo/YMCO Front / KO Back:""
+*%RibbonCombination 51FrontYmckooBackYmckoo/YMCKOO Front / YMCKOO Back:""
+*%RibbonCombination 52FrontWr/WR Front:""
+*%RibbonCombination 53FrontWrBackKr/WR Front / KR Back:""
+*%RibbonCombination 54BackYmckoo/YMCKOO Back:""
+*%RibbonCombination 55BackYmcooFrontK/YMCOO Back / K Front:""
+*%RibbonCombination 56BackYmcoFrontKo/YMCO Back / KO Front:""
+*%RibbonCombination 57BackYmckooFrontYmckoo/YMCKOO Back / YMCKOO Front:""
+*%RibbonCombination 58BackWr/WR Back:""
+*%RibbonCombination 59BackWrFrontKr/WR Back / KR Front:""
+*CloseUI: *RibbonCombination
+
+*CloseGroup: CardOptions
+
+*OpenGroup: MagEncodingOption/Magnetic Encoding options
+
+*OpenUI *DisableMagEncoding/Magnetic Encoding: PickOne
+*OrderDependency: 10 AnySetup *DisableMagEncoding
+*DefaultDisableMagEncoding: 0no
+*DisableMagEncoding 0no/Enabled: "setpagedevice"
+*DisableMagEncoding 1yes/Disabled: "setpagedevice"
+*CloseUI: *DisableMagEncoding
+
+*OpenUI *Coercivity/Coercivity: PickOne
+*OrderDependency: 10 AnySetup *Coercivity
+*DefaultCoercivity: 2High
+*Coercivity 0None/None: "setpagedevice"
+*Coercivity 1Low/Low: "setpagedevice"
+*Coercivity 2High/High: "setpagedevice"
+*CloseUI: *Coercivity
+
+*OpenUI *EncodingType/Encoding Type: PickOne
+*OrderDependency: 10 AnySetup *EncodingType
+*DefaultEncodingType: 1iso
+*EncodingType 0none/None: "setpagedevice"
+*EncodingType 1iso/ISO: "setpagedevice"
+*EncodingType 2aamva/AAMVA: "setpagedevice"
+*EncodingType 3binary/BINARY: "setpagedevice"
+*EncodingType 4custom/CUSTOM: "setpagedevice"
+*%%EncodingType 5jis/JIS: "setpagedevice"
+*CloseUI: *EncodingType
+
+*OpenUI *EncodingOnly/Encoding Only: PickOne
+*OrderDependency: 10 AnySetup *EncodingOnly
+*DefaultEncodingOnly: 0no
+*EncodingOnly 0no/No: "setpagedevice"
+*EncodingOnly 1yes/Yes: "setpagedevice"
+*CloseUI: *EncodingOnly
+
+*OpenUI *EncoderVerification/Encoder Verification: PickOne
+*OrderDependency: 10 AnySetup *EncoderVerification
+*DefaultEncoderVerification: 0no
+*EncoderVerification 0no/No: "setpagedevice"
+*EncoderVerification 1yes/Yes: "setpagedevice"
+*CloseUI: *EncoderVerification
+
+*CloseGroup: MagEncodingOption
+
+*%-----------------------------------------------------------------------*%
+*%--------------------UI Constrains Information Page---------------------*%
+*%-----------------------------------------------------------------------*%
+
+*%---------------------------YMCKO---------------------------------*%
+*UIConstraints: *RibbonName 0YMCKO *RibbonCombination 12FrontMono
+
+*%---------------------------1/2 YMCKO---------------------------------*%
+*UIConstraints: *RibbonName 2HalfYMCKO *RibbonCombination 12FrontMono
+
+*%---------------------------Black---------------------------------*%
+*UIConstraints: *RibbonName 7Black *RibbonCombination 0FrontYmcko
+
+*%---------------------------White---------------------------------*%
+*UIConstraints: *RibbonName 8White *RibbonCombination 0FrontYmcko
+
+*%---------------------------Red---------------------------------*%
+*UIConstraints: *RibbonName 9Red *RibbonCombination 0FrontYmcko
+
+*%---------------------------Blue---------------------------------*%
+*UIConstraints: *RibbonName 10Blue *RibbonCombination 0FrontYmcko
+
+*%---------------------------Gold---------------------------------*%
+*UIConstraints: *RibbonName 11Gold *RibbonCombination 0FrontYmcko
+
+*%---------------------------Silver---------------------------------*%
+*UIConstraints: *RibbonName 12Silver *RibbonCombination 0FrontYmcko
+
+
+*%==== *Coercivity UI Constraints With Mag Encoding Disable options====
+
+*UIConstraints: *DisableMagEncoding 1yes *Coercivity 1Low
+*UIConstraints: *DisableMagEncoding 1yes *Coercivity 2High
+
+*UIConstraints: *DisableMagEncoding 0no *Coercivity 0None
+
+*%==== *EncodingType UI Constraints With Mag Encdoing Disable options====
+
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 1iso
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 2aamva
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 3binary
+*UIConstraints: *DisableMagEncoding 1yes *EncodingType 4custom
+
+*UIConstraints: *DisableMagEncoding 0no *EncodingType 0none
