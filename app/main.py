@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.responses import StreamingResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from io import BytesIO
 from PIL import Image
 import tempfile
@@ -9,6 +9,11 @@ from app.card import create_card_jpg
 from app.print import print_image
 
 app = FastAPI()
+
+
+@app.get("/")
+def root():
+    return RedirectResponse("/docs")
 
 
 @app.post(
