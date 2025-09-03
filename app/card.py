@@ -307,7 +307,7 @@ def create_card_jpg(name: str, kt: str, title: str, photo_path, output_path, rem
         card.paste(logo, logo_position)
 
     # Draw name, kt, title
-    name_box_width = 600
+    name_box_width = 500
     extrainfosize = 38
 
     try:
