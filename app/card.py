@@ -308,6 +308,7 @@ def create_card_jpg(name: str, kt: str, title: str, photo_path, output_path, rem
 
     # Draw name, kt, title
     name_box_width = 540
+    title_box_width = 540  # Same width as name for consistency
     extrainfosize = 38
 
     try:
@@ -315,7 +316,9 @@ def create_card_jpg(name: str, kt: str, title: str, photo_path, output_path, rem
         if FONTRES1:
             name_font = fit_text_to_width(name, FONTRES1, name_box_width, 52)
             kt_font = ImageFont.truetype(FONTRES1, extrainfosize)
-            title_font = ImageFont.truetype(FONTRES1, extrainfosize)
+            title_font = fit_text_to_width(
+                title, FONTRES1, title_box_width, extrainfosize
+            )
         else:
             raise OSError("Custom fonts not available")
     except OSError:
