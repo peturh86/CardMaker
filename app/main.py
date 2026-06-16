@@ -1,9 +1,16 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from dotenv import load_dotenv
+load_dotenv()
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import RedirectResponse, StreamingResponse
 from io import BytesIO
 from PIL import Image
 import tempfile
 import os
+import logging
+import httpx
+
+
+from app.ad_service import ADService, is_configured
 
 from app.card import create_card_jpg
 from app.print import print_image
@@ -186,3 +193,222 @@ async def list_printers():
             "printers": [],
             "total_count": 0,
         }
+
+# --- Azure AD Employee Search ---
+
+logger = logging.getLogger(__name__)
+
+# Initialize AD service (only if configured)
+ad_service = None
+if is_configured():
+    ad_service = ADService()
+else:
+    logger.warning("Azure AD not configured — /search-employees endpoint will return 503")
+
+
+@app.get(
+    "/search-employees",
+    summary="Search Azure AD for employees",
+    description="Search employees by name to auto-fill card fields. Returns matching employees with name, kennitala, and title.",
+    tags=["Employee Search"],
+)
+async def search_employees(q: str):
+    if ad_service is None:
+        raise HTTPException(status_code=503, detail="AD search is not configured")
+
+    # Validate query
+    query = q.strip()
+    if len(query) < 2:
+        raise HTTPException(status_code=422, detail="Search query must be at least 2 characters")
+    if len(query) > 100:
+        raise HTTPException(status_code=422, detail="Search query must not exceed 100 characters")
+
+    try:
+        results = await ad_service.search_employees(query)
+        return {"results": results, "count": len(results)}
+    except RuntimeError as e:
+        if "authenticate" in str(e).lower():
+            raise HTTPException(status_code=503, detail=str(e))
+        raise HTTPException(status_code=502, detail=str(e))
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="Azure AD request timed out")
+
+
+@app.get(
+    "/search-employees/{user_id}/photo",
+    summary="Get employee photo from Azure AD",
+    description="Returns the profile photo for a given user ID, or 404 if no photo exists.",
+    tags=["Employee Search"],
+    responses={
+        200: {"content": {"image/jpeg": {}}, "description": "User profile photo"},
+        404: {"description": "No photo available"},
+    },
+)
+async def get_employee_photo(user_id: str):
+    if ad_service is None:
+        raise HTTPException(status_code=503, detail="AD search is not configured")
+
+    try:
+        photo_bytes = await ad_service.get_user_photo(user_id)
+        if photo_bytes is None:
+            raise HTTPException(status_code=404, detail="No photo available for this user")
+        return StreamingResponse(BytesIO(photo_bytes), media_type="image/jpeg")
+    except RuntimeError as e:
+        if "authenticate" in str(e).lower():
+            raise HTTPException(status_code=503, detail=str(e))
+        raise HTTPException(status_code=502, detail=str(e))
+
+
+@app.post(
+    "/print-employee",
+    summary="Search and print employee card",
+    description="""
+Search Azure AD by name and print the employee's card.
+- If exactly 1 match is found, the card is generated and printed immediately.
+- If multiple matches are found, returns the list so you can pick one and call /print-employee/{user_id}.
+- Uses the employee's AD photo if available.
+""",
+    tags=["Employee Search & Print"],
+)
+async def print_employee_search(
+    q: str = Form(..., description="Employee name to search for"),
+    printer_name: str = Form("ZC300", description="Printer name (defaults to ZC300)"),
+    remove_bg: bool = Form(False, description="Remove background from the AD photo"),
+):
+    if ad_service is None:
+        raise HTTPException(status_code=503, detail="AD search is not configured")
+
+    query = q.strip()
+    if len(query) < 2:
+        raise HTTPException(status_code=422, detail="Search query must be at least 2 characters")
+    if len(query) > 100:
+        raise HTTPException(status_code=422, detail="Search query must not exceed 100 characters")
+
+    try:
+        results = await ad_service.search_employees(query)
+    except RuntimeError as e:
+        if "authenticate" in str(e).lower():
+            raise HTTPException(status_code=503, detail=str(e))
+        raise HTTPException(status_code=502, detail=str(e))
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="Azure AD request timed out")
+
+    if len(results) == 0:
+        raise HTTPException(status_code=404, detail="No employees found matching the query")
+
+    if len(results) > 1:
+        return {
+            "action": "pick_one",
+            "message": f"Multiple matches found ({len(results)}). Call POST /print-employee/{{user_id}} with the desired user's id.",
+            "results": results,
+            "count": len(results),
+        }
+
+    # Exactly 1 result — print immediately
+    employee = results[0]
+    return await _print_employee_card(employee, printer_name, remove_bg)
+
+
+@app.post(
+    "/print-employee/{user_id}",
+    summary="Print card for a specific employee by AD user ID",
+    description="Generates and prints a card for the specified user, fetching their info and photo from Azure AD.",
+    tags=["Employee Search & Print"],
+)
+async def print_employee_by_id(
+    user_id: str,
+    printer_name: str = Form("ZC300", description="Printer name (defaults to ZC300)"),
+    remove_bg: bool = Form(False, description="Remove background from the AD photo"),
+):
+    if ad_service is None:
+        raise HTTPException(status_code=503, detail="AD search is not configured")
+
+    # Look up this specific user by ID via Graph API
+    try:
+        token = await ad_service._get_token()
+        from app.ad_service import GRAPH_BASE_URL, SELECT_FIELDS, KT_ATTRIBUTE
+
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "ConsistencyLevel": "eventual",
+        }
+        response = await ad_service._http_client.get(
+            f"{GRAPH_BASE_URL}/users/{user_id}",
+            params={"$select": SELECT_FIELDS},
+            headers=headers,
+        )
+
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="User not found")
+        if response.status_code != 200:
+            raise HTTPException(status_code=502, detail=f"Graph API error: {response.status_code}")
+
+        user = response.json()
+        employee = {
+            "id": user.get("id", ""),
+            "name": user.get("displayName", "") or "",
+            "kt": user.get(KT_ATTRIBUTE, "") or "",
+            "title": user.get("jobTitle", "") or "",
+        }
+    except RuntimeError as e:
+        if "authenticate" in str(e).lower():
+            raise HTTPException(status_code=503, detail=str(e))
+        raise HTTPException(status_code=502, detail=str(e))
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="Azure AD request timed out")
+
+    return await _print_employee_card(employee, printer_name, remove_bg)
+
+
+async def _print_employee_card(employee: dict, printer_name: str, remove_bg: bool):
+    """Internal helper: generate and print a card for an employee dict."""
+    name = employee["name"]
+    kt = employee["kt"]
+    title = employee["title"]
+    user_id = employee.get("id", "")
+
+    # Try to fetch photo from AD
+    image_bytes = None
+    if user_id:
+        try:
+            photo = await ad_service.get_user_photo(user_id)
+            if photo:
+                image_bytes = photo
+                print(f"[INFO] Using AD photo for {name}")
+            else:
+                print(f"[INFO] No AD photo for {name}, proceeding without photo")
+        except Exception as e:
+            print(f"[WARNING] Failed to fetch photo for {name}: {e}")
+
+    # Generate the card
+    output_buffer = BytesIO()
+    print(f"[INFO] Generating card for: {name}")
+    create_card_jpg(
+        name=name,
+        kt=kt,
+        title=title,
+        photo_path=image_bytes,
+        output_path=output_buffer,
+        remove_bg=remove_bg,
+    )
+
+    # Print the card
+    with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_file:
+        temp_file.write(output_buffer.getvalue())
+        temp_file_path = temp_file.name
+
+    try:
+        print(f"[INFO] Sending card to printer: {printer_name}")
+        print_image(temp_file_path, printer_name)
+        print("[INFO] Card sent to printer successfully")
+    except Exception as e:
+        print(f"[ERROR] Failed to print card: {e}")
+    finally:
+        try:
+            os.unlink(temp_file_path)
+        except Exception:
+            pass
+
+    # Return the card image as well
+    output_buffer.seek(0)
+    return StreamingResponse(output_buffer, media_type="image/jpeg")

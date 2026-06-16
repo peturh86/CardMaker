@@ -5,3 +5,5 @@ rembg
 python-barcode[images]
 onnxruntime
 python-multipart
+msal
+httpx
