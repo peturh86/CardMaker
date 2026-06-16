@@ -347,10 +347,12 @@ async def print_employee_by_id(
             raise HTTPException(status_code=502, detail=f"Graph API error: {response.status_code}")
 
         user = response.json()
+        raw_kt = (user.get(KT_ATTRIBUTE, "") or "").replace("-", "")
         employee = {
             "id": user.get("id", ""),
             "name": user.get("displayName", "") or "",
-            "kt": user.get(KT_ATTRIBUTE, "") or "",
+            "kt": f"{raw_kt[:6]}-{raw_kt[6:]}" if len(raw_kt) == 10 else raw_kt,
+            "kt_barcode": raw_kt,
             "title": user.get("jobTitle", "") or "",
         }
     except RuntimeError as e:

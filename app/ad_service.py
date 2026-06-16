@@ -55,6 +55,13 @@ class ADService:
         """Escape single quotes to prevent OData injection."""
         return query.replace("'", "''")
 
+    def _format_kennitala(self, kt: str) -> str:
+        """Format kennitala as DDMMYY-XXXX (insert dash before last 4 digits)."""
+        # Remove any existing dashes
+        raw = kt.replace("-", "")
+        if len(raw) == 10:
+            return f"{raw[:6]}-{raw[6:]}"
+        return kt
     async def search_employees(self, query: str) -> list[dict]:
         """
         Search for employees by userPrincipalName.
@@ -105,7 +112,8 @@ class ADService:
                 "id": user_id,
                 "name": user.get("displayName", "") or "",
                 "upn": user.get("userPrincipalName", "") or "",
-                "kt": user.get(KT_ATTRIBUTE, "") or "",
+                "kt": self._format_kennitala(user.get(KT_ATTRIBUTE, "") or ""),
+                "kt_barcode": (user.get(KT_ATTRIBUTE, "") or "").replace("-", ""),
                 "title": user.get("jobTitle", "") or "",
                 "has_photo": has_photo,
             })
