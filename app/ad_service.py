@@ -136,9 +136,21 @@ class ADService:
         """
         Fetch a user's profile photo from Graph API.
 
+        Accepts an Azure AD object ID, full UPN (user@domain), or username prefix.
         Returns the photo bytes (JPEG) if the user has a photo, or None if not.
         """
         token = await self._get_token()
+
+        # If it's just a username (no @ and not a GUID), look up the user first
+        identifier = user_id
+        if "@" not in user_id and "-" not in user_id:
+            # Looks like a plain username — search for their UPN
+            resolved = await self._resolve_user_id(token, user_id)
+            if resolved:
+                identifier = resolved
+            else:
+                logger.info(f"Could not resolve username '{user_id}' to a user")
+                return None
 
         headers = {
             "Authorization": f"Bearer {token}",
@@ -146,21 +158,47 @@ class ADService:
 
         try:
             response = await self._http_client.get(
-                f"{GRAPH_BASE_URL}/users/{user_id}/photo/$value",
+                f"{GRAPH_BASE_URL}/users/{identifier}/photo/$value",
                 headers=headers,
             )
 
             if response.status_code == 200:
                 return response.content
             elif response.status_code == 404:
-                logger.info(f"No photo found for user {user_id}")
+                logger.info(f"No photo found for user {identifier}")
                 return None
             else:
-                logger.warning(f"Unexpected status fetching photo for {user_id}: {response.status_code}")
+                logger.warning(f"Unexpected status fetching photo for {identifier}: {response.status_code}")
                 return None
         except httpx.TimeoutException:
-            logger.warning(f"Timeout fetching photo for user {user_id}")
+            logger.warning(f"Timeout fetching photo for user {identifier}")
             return None
+
+    async def _resolve_user_id(self, token: str, username: str) -> str | None:
+        """Resolve a username prefix to a full userPrincipalName or object ID."""
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "ConsistencyLevel": "eventual",
+        }
+        sanitized = self._sanitize_query(username)
+        params = {
+            "$filter": f"startsWith(userPrincipalName,'{sanitized}@')",
+            "$select": "id,userPrincipalName",
+            "$top": "1",
+        }
+        try:
+            response = await self._http_client.get(
+                f"{GRAPH_BASE_URL}/users",
+                params=params,
+                headers=headers,
+            )
+            if response.status_code == 200:
+                users = response.json().get("value", [])
+                if users:
+                    return users[0]["id"]
+        except httpx.TimeoutException:
+            pass
+        return None
 
     async def close(self):
         """Close the HTTP client."""
