@@ -173,7 +173,7 @@ async def generate_and_print_card_endpoint(
 async def list_printers():
     """List all available CUPS printers"""
     try:
-        from print import get_available_printers
+        from app.print import get_available_printers
 
         printers = get_available_printers()
 

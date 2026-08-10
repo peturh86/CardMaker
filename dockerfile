@@ -22,6 +22,9 @@ COPY . /app
 WORKDIR /app/printer/driver
 RUN chmod +x Install.sh && ./Install.sh
 
+# Reset working directory
+WORKDIR /app
+
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
