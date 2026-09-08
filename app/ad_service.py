@@ -83,6 +83,30 @@ class ADService:
             "$top": str(MAX_RESULTS),
         }
 
+        return await self._query_users(token, params)
+
+    async def search_employees_by_name(self, query: str) -> list[dict]:
+        """
+        Search for employees by display name (e.g. "Jón Gauti").
+
+        Matches name tokens, so partial and out-of-order names are found.
+        Returns a list of dicts with keys: id, name, kt, title, upn, has_photo
+        """
+        token = await self._get_token()
+        sanitized = self._sanitize_query(query)
+
+        params = {
+            # $search does tokenized matching on displayName (needs ConsistencyLevel: eventual)
+            "$search": f'"displayName:{sanitized}"',
+            "$select": SELECT_FIELDS,
+            "$top": str(MAX_RESULTS),
+            "$count": "true",
+        }
+
+        return await self._query_users(token, params)
+
+    async def _query_users(self, token: str, params: dict) -> list[dict]:
+        """Run a Graph /users query and map the results to card fields."""
         headers = {
             "Authorization": f"Bearer {token}",
             "ConsistencyLevel": "eventual",

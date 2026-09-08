@@ -227,7 +227,7 @@ async def search_employees(q: str):
         raise HTTPException(status_code=422, detail="Search query must not exceed 100 characters")
 
     try:
-        results = await ad_service.search_employees(query)
+        results = await ad_service.search_employees_by_name(query)
         return {"results": results, "count": len(results)}
     except RuntimeError as e:
         if "authenticate" in str(e).lower():
