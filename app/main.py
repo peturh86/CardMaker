@@ -4,7 +4,8 @@ try:
 except ImportError:
     pass
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
-from fastapi.responses import RedirectResponse, StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from io import BytesIO
 from PIL import Image
 import tempfile
@@ -18,12 +19,55 @@ from app.ad_service import ADService, is_configured
 from app.card import create_card_jpg
 from app.print import print_image
 
-app = FastAPI()
+logger = logging.getLogger(__name__)
+
+app = FastAPI(title="CardMaker", docs_url="/docs")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+DEFAULT_PRINTER = os.getenv("PRINTER_NAME", "ZC300")
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# Initialize AD service (only if configured)
+ad_service = ADService() if is_configured() else None
+if ad_service is None:
+    logger.warning(
+        "Azure AD not configured — employee search endpoints will return 503"
+    )
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 def root():
-    return RedirectResponse("/docs")
+    """Serve the card maker UI."""
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
+@app.get("/logo.png", include_in_schema=False)
+def logo():
+    return FileResponse(os.path.join(BASE_DIR, "posturinn_logo.png"))
+
+
+@app.get(
+    "/api/status",
+    summary="Frontend bootstrap info",
+    description="Reports whether Azure AD search is available and which printers exist.",
+    tags=["Status"],
+)
+def api_status():
+    from app.print import get_available_printers
+
+    try:
+        printers = get_available_printers()
+    except Exception as e:  # pragma: no cover - depends on host CUPS setup
+        logger.warning(f"Could not list printers: {e}")
+        printers = []
+
+    return {
+        "ad_configured": ad_service is not None,
+        "printers": printers,
+        "default_printer": DEFAULT_PRINTER,
+    }
 
 
 @app.post(
@@ -181,13 +225,13 @@ async def list_printers():
         for name in printers:
             printer_info = {
                 "name": name,
-                "is_default": name == "ZC300",  # ZC300 is our default
+                "is_default": name == DEFAULT_PRINTER,
             }
             printer_list.append(printer_info)
 
         return {
             "printers": printer_list,
-            "default_printer": "ZC300",
+            "default_printer": DEFAULT_PRINTER,
             "total_count": len(printer_list),
         }
     except Exception as e:
@@ -198,15 +242,6 @@ async def list_printers():
         }
 
 # --- Azure AD Employee Search ---
-
-logger = logging.getLogger(__name__)
-
-# Initialize AD service (only if configured)
-ad_service = None
-if is_configured():
-    ad_service = ADService()
-else:
-    logger.warning("Azure AD not configured — /search-employees endpoint will return 503")
 
 
 @app.get(

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Starfsmannakort · Pósturinn</title>
+  <link rel="icon" href="/logo.png" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/logo.png" alt="Pósturinn" class="brand-logo" />
+      <div class="brand-text">
+        <h1>Starfsmannakort</h1>
+        <p>Employee ID card maker</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span id="ad-status" class="pill pill-muted">Checking…</span>
+      <a class="link" href="/docs" target="_blank" rel="noopener">API docs</a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ── Form column ─────────────────────────────────────────── -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Card details</h2>
+      </div>
+
+      <div class="panel-body">
+        <!-- Directory search -->
+        <div class="field" id="search-field">
+          <label for="search">Search directory</label>
+          <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" /><path d="M16.5 16.5 21 21" />
+            </svg>
+            <input type="search" id="search" placeholder="Name, e.g. Jón Gauti"
+                   autocomplete="off" spellcheck="false" />
+            <span class="spinner" id="search-spinner" hidden></span>
+          </div>
+          <ul class="results" id="results" hidden></ul>
+          <p class="hint" id="search-hint">Type at least 2 characters to search Azure AD.</p>
+        </div>
+
+        <div class="divider"><span>or enter manually</span></div>
+
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Friðjón Ástmundsson" autocomplete="off" />
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="kt">Kennitala</label>
+            <input type="text" id="kt" placeholder="300485-2199" inputmode="numeric"
+                   maxlength="11" autocomplete="off" />
+            <p class="hint" id="kt-hint">Encoded as the Code128 barcode.</p>
+          </div>
+          <div class="field">
+            <label for="title">Job title</label>
+            <input type="text" id="title" placeholder="Upplýsingatæknideild" autocomplete="off" />
+          </div>
+        </div>
+
+        <!-- Photo -->
+        <div class="field">
+          <label>Photo</label>
+          <div class="dropzone" id="dropzone" tabindex="0" role="button"
+               aria-label="Choose or drop a photo">
+            <img id="photo-thumb" alt="" hidden />
+            <div class="dropzone-empty" id="dropzone-empty">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 16V4m0 0L8 8m4-4 4 4" /><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+              </svg>
+              <p><strong>Drop an image</strong> or click to browse</p>
+              <p class="hint">PNG or JPEG. Optional — cards print fine without one.</p>
+            </div>
+            <input type="file" id="photo" accept="image/*" hidden />
+          </div>
+          <div class="photo-meta" id="photo-meta" hidden>
+            <span class="pill pill-blue" id="photo-source">Uploaded</span>
+            <span class="photo-name" id="photo-name"></span>
+            <button type="button" class="btn-text" id="photo-clear">Remove</button>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="row">
+          <div class="field">
+            <label for="printer">Printer</label>
+            <select id="printer"></select>
+          </div>
+          <div class="field">
+            <label>Options</label>
+            <label class="switch">
+              <input type="checkbox" id="remove-bg" />
+              <span class="switch-track"><span class="switch-knob"></span></span>
+              <span class="switch-label">Remove photo background</span>
+            </label>
+            <p class="hint">Slow — the first run downloads an AI model.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-foot">
+        <button type="button" class="btn btn-ghost" id="btn-reset">Clear</button>
+        <button type="button" class="btn btn-secondary" id="btn-preview">Preview</button>
+        <button type="button" class="btn btn-primary" id="btn-print">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 9V3h12v6" /><rect x="3" y="9" width="18" height="7" rx="2" />
+            <path d="M6 16h12v5H6z" />
+          </svg>
+          Print card
+        </button>
+      </div>
+    </section>
+
+    <!-- ── Preview column ──────────────────────────────────────── -->
+    <section class="panel panel-preview">
+      <div class="panel-head">
+        <h2>Preview</h2>
+        <span class="pill pill-muted">CR80 · 1016 × 638 px · 300 dpi</span>
+      </div>
+
+      <div class="preview-stage">
+        <div class="card-frame" id="card-frame">
+          <img id="card-img" alt="Generated card preview" hidden />
+          <div class="card-placeholder" id="card-placeholder">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2" y="5" width="20" height="14" rx="2" />
+              <circle cx="8.5" cy="11" r="2.5" /><path d="M14 10h5M14 14h5M4 17h6" />
+            </svg>
+            <p>Fill in a name to see the card</p>
+          </div>
+          <div class="card-loading" id="card-loading" hidden><span class="spinner"></span></div>
+        </div>
+      </div>
+
+      <div class="panel-foot">
+        <span class="foot-note" id="preview-note">Preview updates as you type.</span>
+        <a class="btn btn-ghost" id="btn-download" download="starfsmannakort.jpg" hidden>Download JPEG</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
