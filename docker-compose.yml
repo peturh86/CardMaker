@@ -9,3 +9,9 @@ services:
     volumes:
       - ./app:/app/app
       - ./printer:/printer
+      # Persist the ~176 MB rembg u2net model so it is downloaded once rather
+      # than on every container recreate. Runs as root, so HOME is /root.
+      - u2net-cache:/root/.u2net
+
+volumes:
+  u2net-cache:

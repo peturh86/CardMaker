@@ -1,6 +1,7 @@
 import os
+import threading
 from PIL import Image, ImageDraw, ImageFont
-from rembg import remove
+from rembg import remove, new_session
 import io
 import barcode
 from barcode.writer import ImageWriter
@@ -8,6 +9,48 @@ from barcode.writer import ImageWriter
 
 # Card dimensions (CR80 card at 300 DPI): 85.6 x 54 mm = 1016 x 638 px
 CARD_WIDTH, CARD_HEIGHT = 1016, 638
+
+# --- Background removal model ---------------------------------------------
+# rembg's remove() builds a brand new inference session whenever session=None,
+# which re-reads the ~176 MB u2net model from disk on every call (~1.2s instead
+# of ~0.4s). Build one session and share it. Creating it also downloads the
+# model on a cold cache, so warm_rembg_session() lets startup absorb that cost
+# instead of whoever clicks first.
+REMBG_MODEL = "u2net"
+
+_rembg_lock = threading.Lock()
+_rembg_session = None
+
+
+def get_rembg_session():
+    """Return the shared rembg session, building it on first use."""
+    global _rembg_session
+    with _rembg_lock:
+        if _rembg_session is None:
+            _rembg_session = new_session(REMBG_MODEL)
+        return _rembg_session
+
+
+def is_rembg_ready() -> bool:
+    """Whether the background removal model is loaded and ready to use."""
+    return _rembg_session is not None
+
+
+def warm_rembg_session() -> bool:
+    """
+    Download and load the background removal model ahead of the first request.
+
+    Safe to call from a background thread: a request that arrives mid-download
+    blocks on the same lock rather than starting a second download.
+    """
+    try:
+        get_rembg_session()
+        print("[INFO] Background removal model ready")
+        return True
+    except Exception as e:
+        # Not fatal — requests that need it will retry and report their own error.
+        print(f"[WARNING] Could not preload background removal model: {e}")
+        return False
 
 # Get the directory of this script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -244,9 +287,7 @@ def load_image(image_data_or_path, remove_bg=False):
                 image_bytes = f.read()
 
         if remove_bg:
-            from rembg import remove
-
-            output_bytes = remove(image_bytes)
+            output_bytes = remove(image_bytes, session=get_rembg_session())
             image = Image.open(io.BytesIO(output_bytes)).convert("RGBA")
             image = autocrop_transparent(image)
         else:

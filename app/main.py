@@ -6,26 +6,50 @@ except ImportError:
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from contextlib import asynccontextmanager
 from io import BytesIO
 from PIL import Image
 import tempfile
 import os
 import logging
+import threading
 import httpx
 
 
 from app.ad_service import ADService, is_configured
 
-from app.card import create_card_jpg
+from app.card import create_card_jpg, is_rembg_ready, warm_rembg_session
 from app.print import print_image
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="CardMaker", docs_url="/docs")
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 DEFAULT_PRINTER = os.getenv("PRINTER_NAME", "ZC300")
+
+# Preload the background removal model at startup. Set REMBG_PRELOAD=0 to skip
+# it (handy in development, where you may never touch background removal).
+REMBG_PRELOAD = os.getenv("REMBG_PRELOAD", "1").strip().lower() not in (
+    "0",
+    "false",
+    "no",
+)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    if REMBG_PRELOAD:
+        # On a separate thread so a cold model download doesn't hold up the
+        # server accepting connections — everything except background removal
+        # works while it lands.
+        logger.info("Preloading background removal model in the background")
+        threading.Thread(
+            target=warm_rembg_session, name="rembg-warmup", daemon=True
+        ).start()
+    yield
+
+
+app = FastAPI(title="CardMaker", docs_url="/docs", lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -67,6 +91,8 @@ def api_status():
         "ad_configured": ad_service is not None,
         "printers": printers,
         "default_printer": DEFAULT_PRINTER,
+        "rembg_preload": REMBG_PRELOAD,
+        "rembg_ready": is_rembg_ready(),
     }
 
 
